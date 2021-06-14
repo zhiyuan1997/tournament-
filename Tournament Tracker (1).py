@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
+# In[21]:
 
 
 import json
@@ -58,13 +58,15 @@ def sign_up(tournamentDict):
             break
         
         print("Enter a desired starting slot[1-%i]" % len(list(tournamentDict.keys())))
-                                                          
+        
         slot= get_valid_int()
         if tournamentDict[slot]!=None:
             print("This slot is taken")
         else:
             tournamentDict[slot]=name
             success=1
+            print("Success:")
+            print("%s is signed up in starting slot #%s." %(name,slot))
 
 def cancel_sign_up(tournamentDict):
     '''
@@ -106,8 +108,8 @@ def view_participants(tournamentDict):
     last=[]
     names=tournamentDict.values()
     for name in names:
-        storage=name.split(',')
         try:
+            storage=name.split(',')
             last.append(str(storage[1]))
             first.append(str(storage[0]))
         except:
@@ -173,21 +175,38 @@ def load_tournament():
     '''
     print("Loading Tournament")
     print("==================")
-    name=input("What is the name of the tournament you want data loaded for").strip()
     success=0
-    fileName=name+'.json'
-    f= open(fileName, 'r')
-    #load dictionary object in file
-    tournamentDict= json.load(f)
+    while success==0:
+        name=input("What is the name of the tournament you want data loaded for(Enter 0 to exit)").strip()
+        fileName=name+'.json'
+        try:
+            f= open(fileName, 'r')
+            #load dictionary object in file
+            tournamentDict= json.load(f)
+            print("%s was successfully loaded." % fileName)
+            f.close()
+            success=1
+        except:
+            print("Invalid tournament name. Make sure you enter the tournament name exactly as it was created")
+            
+        if name=='0':
+            success=1
+            
     return tournamentDict, name
 
 
-# In[4]:
+# In[ ]:
 
 
-#6 states control the flow of the application' functionalities (next state is set by user selections):
+
+
+
+# In[23]:
+
+
+#6 states control the flow of the application's functionalities (next state is set by user selections):
 #initilialize next 
-next_state= 0 #create new tournament
+next_state= 0 
 
 #while loop that terminates and loops the application
 while next_state != 9:
@@ -204,7 +223,7 @@ while next_state != 9:
         print("4.) Search for single participant")
         print("5.) Save Current Tournament to File")
         print("6.) Create new tournament")
-        print("7.) Load new Tournament from File")
+        print("7.) Load existing Tournament from File")
         print("8.) View Tournament Name")
         print("Enter any other number to exit.\n")
         #   Get user's menu selection 
@@ -226,10 +245,10 @@ while next_state != 9:
         next_state=0
 
     elif int(next_state)==3:#View Participants
-        #try:
-        view_participants(tournamentDict)
-        #except:
-            #print("\nNo tournament data loaded.\n")
+        try:
+            view_participants(tournamentDict)
+        except:
+            print("\nNo tournament data loaded.\n")
         next_state=0
     
     elif int(next_state)==4: #search for a single participant
@@ -251,11 +270,8 @@ while next_state != 9:
         next_state=0
 
     elif int(next_state)==7: #7:Load New Tournamet from File
-        #try:
+        
         tournamentDict, name= load_tournament()
-        print("New tournament data sucessfully loaded.")
-        #except:
-            #print("\nFile not found. Make sure you enter the name the exact same way as you did when the tournament was created.\n")
         next_state=0
 
 #8:Print tournament name
