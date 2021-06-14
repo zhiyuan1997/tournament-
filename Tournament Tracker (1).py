@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[21]:
+# In[26]:
 
 
 import json
@@ -59,7 +59,14 @@ def sign_up(tournamentDict):
         
         print("Enter a desired starting slot[1-%i]" % len(list(tournamentDict.keys())))
         
-        slot= get_valid_int()
+        valid=0
+        while valid==0:
+            slot= get_valid_int()
+            if int(slot)>=1 and int(slot)<=len(list(tournamentDict.keys())):
+                valid=1
+            else:
+                print("Slot out of range. Please enter a valid slot.")
+        
         if tournamentDict[slot]!=None:
             print("This slot is taken")
         else:
@@ -86,12 +93,19 @@ def cancel_sign_up(tournamentDict):
             break
         else:
             print("Enter the participant's starting slot[1-%i]" % len(list(tournamentDict.keys())))
-            slot= get_valid_int()
+            valid=0
+            while valid==0:
+                slot= get_valid_int()
+                if int(slot)>=1 and int(slot)<=len(list(tournamentDict.keys())):
+                    valid=1
+                else:
+                    print("Slot out of range. Please enter a valid slot.")
             
         if tournamentDict[slot]!=name:
             print(f"Error {name} is not signed up for this starting slot.")
         else:
             tournamentDict[slot]=None
+            print("%s has been cancelled from starting slot #%s" %(name,slot))
             success=1
 
 def view_participants(tournamentDict):
@@ -201,7 +215,7 @@ def load_tournament():
 
 
 
-# In[23]:
+# In[27]:
 
 
 #6 states control the flow of the application's functionalities (next state is set by user selections):
