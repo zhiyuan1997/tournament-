@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[26]:
+# In[29]:
 
 
 import json
@@ -137,7 +137,7 @@ def view_participants(tournamentDict):
     print("Starting Slot : Last Name, First Name")
     for name in last_sort:
         index= last.index(name)
-        if last[index]!=None:
+        if first[index]!=None:
             print("%s : %s , %s" %(slots[index],last[index],first[index]))
     print("\nEmpty Slots:")   
     for key in tournamentDict.keys():
@@ -215,7 +215,7 @@ def load_tournament():
 
 
 
-# In[27]:
+# In[31]:
 
 
 #6 states control the flow of the application's functionalities (next state is set by user selections):
